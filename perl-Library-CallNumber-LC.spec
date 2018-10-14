@@ -4,32 +4,33 @@
 #
 Name     : perl-Library-CallNumber-LC
 Version  : 0.23
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/D/DB/DBWELLS/Library-CallNumber-LC-0.23.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/D/DB/DBWELLS/Library-CallNumber-LC-0.23.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libl/liblibrary-callnumber-lc-perl/liblibrary-callnumber-lc-perl_0.23-1.debian.tar.xz
 Summary  : 'Deal with Library-of-Congress call numbers'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl
-Requires: perl-Library-CallNumber-LC-man
+BuildRequires : buildreq-cpan
 
 %description
 Library-CallNumber-LC
 Library::CallNumber::LC is mostly designed to do call number normalization, with the following goals:
 
-%package man
-Summary: man components for the perl-Library-CallNumber-LC package.
-Group: Default
+%package dev
+Summary: dev components for the perl-Library-CallNumber-LC package.
+Group: Development
+Provides: perl-Library-CallNumber-LC-devel = %{version}-%{release}
 
-%description man
-man components for the perl-Library-CallNumber-LC package.
+%description dev
+dev components for the perl-Library-CallNumber-LC package.
 
 
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Library-CallNumber-LC-0.23
-mkdir -p %{_topdir}/BUILD/Library-CallNumber-LC-0.23/deblicense/
+cd ..
+%setup -q -T -D -n Library-CallNumber-LC-0.23 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Library-CallNumber-LC-0.23/deblicense/
 
 %build
@@ -55,9 +56,9 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -66,8 +67,8 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Library/CallNumber/LC.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Library/CallNumber/LC.pm
 
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Library::CallNumber::LC.3
