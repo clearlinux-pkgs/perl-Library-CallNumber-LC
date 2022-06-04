@@ -4,7 +4,7 @@
 #
 Name     : perl-Library-CallNumber-LC
 Version  : 0.23
-Release  : 21
+Release  : 22
 URL      : https://cpan.metacpan.org/authors/id/D/DB/DBWELLS/Library-CallNumber-LC-0.23.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/D/DB/DBWELLS/Library-CallNumber-LC-0.23.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libl/liblibrary-callnumber-lc-perl/liblibrary-callnumber-lc-perl_0.23-1.debian.tar.xz
@@ -101,4 +101,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.34.0/Library/CallNumber/LC.pm
+/usr/lib/perl5/*
